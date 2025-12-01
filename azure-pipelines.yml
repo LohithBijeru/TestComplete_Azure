@@ -1,31 +1,26 @@
 name: Build1
 
 stages:
-  - stage: QA
-    displayName: QA
-    jobs:
-    - job: Job1
-      displayName: Job1
-      pool:
-        name: 'Windows2022'   # your self-hosted agent running Windows Server 2022
+- stage: QA
+  displayName: QA
+  jobs:
+  - job: Job1
+    displayName: Job1
+    pool:
+      vmImage: 'windows-2022'   # 🔥 Microsoft-hosted Windows Server 2022 agent
 
-      steps:
-      - checkout: self
+    steps:
+    - checkout: self
 
-      # Install TestComplete Test Adapter on the agent
-      - task: InstallTestCompleteAdapter@1
-        displayName: "Install TestComplete Adapter"
+    - task: InstallTestCompleteAdapter@1
+      displayName: "Install TestComplete Adapter"
 
-      # Run TestComplete project suite using the VSTest runner
-      - task: VSTest@2
-        displayName: "Execute TestComplete Tests"
-        inputs:
-          testSelector: 'testAssemblies'
-          testAssemblyVer2: |
-            **\*.pjs
-          searchFolder: 'C:\Users\Public\Documents\TestComplete 15 Samples\Desktop\Orders\C#\TCProjects\JavaScript'
-          vsTestVersion: 'toolsInstaller'
-          testRunTitle: 'Automated Tests - TestComplete'
-          runInParallel: false
-          failOnMinTestsNotRun: true
-          diagnosticsEnabled: true   # enables detailed debug logs
+    - task: VSTest@2
+      displayName: "Run TestComplete Project Suite"
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*.pjs
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        vsTestVersion: 'toolsInstaller'
+        testRunTitle: 'TestComplete – Windows 2022 Support Check'
