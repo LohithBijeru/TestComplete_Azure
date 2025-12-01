@@ -7,7 +7,7 @@ stages:
   - job: Job1
     displayName: Job1
     pool:
-      vmImage: 'windows-2022'   # 🔥 Microsoft-hosted Windows Server 2022 agent
+      vmImage: 'windows-2020'   # 🔥 Microsoft-hosted Windows Server 2022 agent
 
     steps:
     - checkout: self
